@@ -151,7 +151,11 @@ opcode_connect(const struct pdu* cmd)
   if (!wbuf)
     return BT_STATUS_NOMEM;
 
-  status = btav_interface->connect(&bd_addr);
+  status = btav_interface->connect_src(&bd_addr);
+  if (status != BT_STATUS_SUCCESS)
+    goto err_btav_interface_connect;
+
+  status = btav_interface->connect_sink(&bd_addr);
   if (status != BT_STATUS_SUCCESS)
     goto err_btav_interface_connect;
 
